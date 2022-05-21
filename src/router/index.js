@@ -1,17 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: HomeView,
-  // },
-  // {
-  //   path: "/about",
-  //   name: "about",
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  // },
+  { path: "/", redirect: "/time-entries" },
+  {
+    path: "/time-entries",
+    name: "Time entries",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/TimeEntriesView.vue"),
+  },
+  {
+    path: "/new-time-entry",
+    name: "Add time entry",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/AddTimeEntry.vue"),
+  },
+  {
+    path: "/add-time-entry",
+    name: "Add time entry",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/NewTimeEntry.vue"),
+  },
 ];
 
 const router = createRouter({

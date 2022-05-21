@@ -25,7 +25,24 @@ export default {
   font-family: "Poppins", sans-serif;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 html {
   scroll-behavior: smooth;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+  transform: translateX(-100%);
+}
+.fade-leave-to,
+.fade-enter-from {
+  opacity: 0;
 }
 </style>

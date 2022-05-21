@@ -62,9 +62,31 @@
       </div>
       <ul class="nav_list">
         <li @click="logOutUser">
-          <router-link to="/home">
+          <router-link to="/add-time-entry" active-class="active-link">
+            <font-awesome-icon
+              id="ikona"
+              icon="plus-square"
+            ></font-awesome-icon>
+            <span class="links_name">Add time entry </span>
+          </router-link>
+        </li>
+        <li @click="logOutUser">
+          <router-link to="/time-entries" active-class="active-link">
             <font-awesome-icon id="ikona" icon="clock"></font-awesome-icon>
             <span class="links_name">Time entries </span>
+          </router-link>
+        </li>
+        <!-- dummy data below -->
+        <li>
+          <router-link to="/">
+            <font-awesome-icon id="ikona" icon="clock"></font-awesome-icon>
+            <span class="links_name">Tasks </span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/">
+            <font-awesome-icon id="ikona" icon="clock"></font-awesome-icon>
+            <span class="links_name">Scheduling </span>
           </router-link>
         </li>
       </ul>
@@ -72,8 +94,12 @@
       <div class="profile_content">
         <div class="profile">
           <div class="profile_details">
-            <img src="@/assets/images/startup.png" alt="" />
-            <div class="name">Kii</div>
+            <img src="@/assets/images/user.png" alt="" />
+            <div class="name">Kristian Nenadović</div>
+            <font-awesome-icon
+              class="logout"
+              icon="sign-out-alt"
+            ></font-awesome-icon>
           </div>
         </div>
       </div>
@@ -83,37 +109,25 @@
 
 <script>
 // import { dom } from "@fortawesome/fontawesome-svg-core";
-import { ref } from "vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   setup() {
-    const sidebarIsActive = ref(true);
+    const store = useStore();
+
+    const sidebarIsActive = computed(() => {
+      return store.getters.sidebarIsActive;
+    });
+
     function toggleSidebar() {
-      sidebarIsActive.value = !sidebarIsActive.value;
+      store.commit("toggleSidebar");
     }
 
     return {
       sidebarIsActive,
       toggleSidebar,
     };
-  },
-  methods: {
-    toggleDarkMode() {
-      console.log("toggleDarkMode");
-      this.$store.commit("toggleDarkMode");
-    },
-    closeSidebar() {
-      this.$store.commit("removeSidebar");
-    },
-  },
-  created() {
-    // dom.watch();
-  },
-  computed: {
-    isMobile() {
-      //   return this.$store.getters.isMobile;
-      return false;
-    },
   },
 };
 </script>
@@ -126,11 +140,6 @@ export default {
   font-size: 24px;
   z-index: 102;
   cursor: pointer;
-  color: black;
-
-  &:hover {
-    color: #333;
-  }
 }
 
 .sidebar {
@@ -141,8 +150,8 @@ export default {
   top: 0;
   left: 0;
   padding: 78px 14px;
-  transition: all 0.3s ease;
-  // z-index: 50;
+  transition: all 0.2s ease;
+  z-index: 50;
   border: 1px solid $border_color;
 
   @include sm {
@@ -157,41 +166,8 @@ export default {
   }
 }
 
-// .sidebar #btn {
-//   color: black;
-//   position: absolute;
-//   // left: 90%;
-//   top: 26px;
-//   font-size: 24px;
-//   text-align: center;
-//   transform: translateX(-50%);
-//   cursor: pointer;
-//   transition: 0.8s ease all;
-// }
-
-/*  */
-
 .sidebar .nav_list {
-  // margin-top: 20px;
-  //   overflow-y: scroll;
-  // padding-right: 4px;
   height: 100%;
-
-  //   &::-webkit-scrollbar {
-  //     width: 4px;
-  //     background: #ccc;
-  //     border-radius: 0 8px 8px 0;
-  //   }
-
-  //   &::-webkit-scrollbar-thumb {
-  //     background: #000;
-  //     border-radius: 0 8px 8px 0;
-  //   }
-
-  //   @include md {
-  //     overflow-y: hidden;
-  //     padding-right: 0px;
-  //   }
 
   li {
     list-style: none;
@@ -233,12 +209,16 @@ export default {
         pointer-events: auto;
       }
     }
+
+    .active-link {
+      color: $sidebar_text_selected;
+    }
   }
 }
 
 .sidebar .profile_content {
   position: absolute;
-  color: #fff;
+  color: $text_dark;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -255,8 +235,18 @@ export default {
       display: flex;
       align-items: center;
 
+      .logout {
+        transform: rotate(180deg);
+        font-size: 1.5rem;
+        margin-left: auto;
+        margin-right: 0.5rem;
+      }
+
       .name {
         font-weight: 400;
+        // margin-left: auto;
+        font-size: 0.8rem;
+        margin-left: 8px;
       }
 
       img {
@@ -264,15 +254,5 @@ export default {
       }
     }
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-  transform: translateX(-100%);
-}
-.fade-leave-to,
-.fade-enter-from {
-  opacity: 0;
 }
 </style>

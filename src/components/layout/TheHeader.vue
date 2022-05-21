@@ -57,8 +57,9 @@
       </svg>
     </div> -->
     <h2 class="brand-title">
-      <span>Productive</span>
-      <span :style="'font-weight:400'"> time-tracker</span>
+      <span>Time</span>
+      <!-- <span>Productive</span> -->
+      <span :style="'font-weight:400'"> tracker</span>
     </h2>
     <!-- <a href="#" class="toggle-button" @click="toggleNavbar">
         <span class="bar"></span>
@@ -77,17 +78,41 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onBeforeUnmount, nextTick } from "vue";
+import { useStore } from "vuex";
 export default {
   setup() {
-    const isActive = ref(false);
-    function toggleNavbar() {
-      isActive.value = !isActive.value;
+    const windowWidth = ref(null);
+    const store = useStore();
+
+    nextTick(() => {
+      window.addEventListener("resize", checkScreen);
+      checkScreen();
+    });
+
+    function checkScreen() {
+      windowWidth.value = window.innerWidth;
+      if (windowWidth.value < 480) {
+        store.commit("setMobile", true);
+        return;
+      }
+      store.commit("setMobile", false);
+      return;
     }
-    return {
-      isActive,
-      toggleNavbar,
-    };
+
+    onBeforeUnmount(() => {
+      window.removeEventListener("resize", checkScreen);
+    });
+
+    return {};
+    // const isActive = ref(false);
+    // function toggleNavbar() {
+    //   isActive.value = !isActive.value;
+    // }
+    // return {
+    //   isActive,
+    //   toggleNavbar,
+    // };
   },
 };
 </script>

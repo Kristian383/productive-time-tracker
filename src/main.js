@@ -6,19 +6,24 @@ import router from "./router";
 import store from "./store";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
+import BaseCard from "./components/ui/BaseCard.vue"
+
 
 import {
     faEdit,
     faTrash,
     faClock,
-    faBars
+    faBars,
+    faSignOutAlt,
+    faPlusSquare
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faClock, faEdit, faTrash, faBars);
+library.add(faClock, faEdit, faTrash, faBars, faSignOutAlt, faPlusSquare);
 
 const app = createApp(App);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
+app.component('base-card', BaseCard)
 
 app.use(router);
 app.use(store);

@@ -1,4 +1,6 @@
-<template>Time entries</template>
+<template>
+  <base-card> Time entries</base-card>
+</template>
 
 <script>
 export default {};
