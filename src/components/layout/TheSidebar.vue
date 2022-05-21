@@ -80,14 +80,14 @@
         <!-- dummy data below -->
         <li>
           <router-link to="/">
-            <font-awesome-icon class="ikona" icon="clock"></font-awesome-icon>
+            <font-awesome-icon class="ikona" icon="th-list"></font-awesome-icon>
             <span class="links_name">Tasks </span>
           </router-link>
         </li>
         <li>
           <router-link to="/">
-            <font-awesome-icon class="ikona" icon="clock"></font-awesome-icon>
-            <span class="links_name">Scheduling </span>
+            <font-awesome-icon class="ikona" icon="folder"></font-awesome-icon>
+            <span class="links_name">Projects </span>
           </router-link>
         </li>
       </ul>

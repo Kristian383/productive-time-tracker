@@ -1,5 +1,6 @@
 <template>
   <base-card>
+    <!-- <h2>My time entries</h2> -->
     <div class="time-entries-container">
       <time-entry-item v-for="time in 3" :key="time"></time-entry-item>
     </div>
@@ -19,5 +20,7 @@ export default {
 .time-entries-container {
   border-radius: 6px;
   border: 1px solid $border_color;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 </style>

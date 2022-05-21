@@ -26,14 +26,13 @@
       <span class="icon-wrapper" @click="toggleCopyPopup">
         <font-awesome-icon icon="ellipsis-h"></font-awesome-icon>
       </span>
-      <!--  -->
       <popup-edit :active="popupIsActive"></popup-edit>
     </div>
   </div>
 </template>
 
 <script>
-import PopupEdit from "./ui/PopupEdit.vue";
+import PopupEdit from "./time-entry-item/PopupEdit.vue";
 
 import { ref } from "vue";
 
