@@ -121,37 +121,6 @@ export default {
       }
     }
 
-    // .popup-edit {
-    //   position: absolute;
-    //   top: 53px;
-    //   right: 0;
-    //   background-color: #fff;
-    //   display: flex;
-    //   border-radius: 4px;
-    //   flex-direction: column;
-    //   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    //     0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
-    //   span {
-    //     cursor: pointer;
-    //     display: flex;
-    //     gap: 8px;
-    //     align-items: center;
-    //     padding: 12px;
-
-    //     &:hover {
-    //       background-color: $background_blue;
-    //     }
-
-    //     &:last-child {
-    //       color: $red_text;
-    //     }
-    //     &:last-child:hover {
-    //       background-color: $red_text_hover;
-    //     }
-    //   }
-    // }
-
     @include md {
       gap: 1rem;
     }
