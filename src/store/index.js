@@ -1,6 +1,8 @@
 import { createStore } from "vuex";
+import timeEntryModule from "./time-entry/index";
 
 export default createStore({
+  modules: { time: timeEntryModule },
   state: {
     sidebarIsActive: true,
     mobile: null,
@@ -28,5 +30,4 @@ export default createStore({
     },
   },
   actions: {},
-  modules: {},
 });

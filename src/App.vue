@@ -8,11 +8,23 @@
 <script>
 import TheHeader from "@/components/layout/TheHeader.vue";
 import TheSidebar from "@/components/layout/TheSidebar.vue";
+import { useStore } from "vuex";
+import { onMounted } from "vue";
 
 export default {
   components: {
     TheHeader,
     TheSidebar,
+  },
+  setup() {
+    const store = useStore();
+    onMounted(() => {
+      store.dispatch("time/fetchOrganisationMemberships").then((res) => {
+        if (res) {
+          store.dispatch("time/fetchTimeEntries");
+        }
+      });
+    });
   },
 };
 </script>

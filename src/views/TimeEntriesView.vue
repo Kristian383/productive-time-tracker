@@ -41,7 +41,7 @@ export default {
       // return props.query.edit ? props.query.edit : false;
     });
     // console.log(route);
-    console.log(props.query);
+    // console.log(props.query);
 
     return { showModal };
   },
