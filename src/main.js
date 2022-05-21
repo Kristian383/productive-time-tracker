@@ -15,10 +15,11 @@ import {
     faClock,
     faBars,
     faSignOutAlt,
-    faPlusSquare
+    faPlusSquare,
+    faPlusCircle
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faClock, faEdit, faTrash, faBars, faSignOutAlt, faPlusSquare);
+library.add(faClock, faEdit, faTrash, faBars, faSignOutAlt, faPlusSquare, faPlusCircle);
 
 const app = createApp(App);
 

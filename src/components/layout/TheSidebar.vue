@@ -61,10 +61,11 @@
         </svg>
       </div>
       <ul class="nav_list">
-        <li @click="logOutUser">
-          <router-link to="/add-time-entry" active-class="active-link">
+        <li>
+          <router-link to="/add-time-entry" class="add-btn">
+            <!--active-class="active-link"-->
             <font-awesome-icon
-              id="ikona"
+              class="ikona"
               icon="plus-square"
             ></font-awesome-icon>
             <span class="links_name">Add time entry </span>
@@ -72,20 +73,20 @@
         </li>
         <li @click="logOutUser">
           <router-link to="/time-entries" active-class="active-link">
-            <font-awesome-icon id="ikona" icon="clock"></font-awesome-icon>
+            <font-awesome-icon class="ikona" icon="clock"></font-awesome-icon>
             <span class="links_name">Time entries </span>
           </router-link>
         </li>
         <!-- dummy data below -->
         <li>
           <router-link to="/">
-            <font-awesome-icon id="ikona" icon="clock"></font-awesome-icon>
+            <font-awesome-icon class="ikona" icon="clock"></font-awesome-icon>
             <span class="links_name">Tasks </span>
           </router-link>
         </li>
         <li>
           <router-link to="/">
-            <font-awesome-icon id="ikona" icon="clock"></font-awesome-icon>
+            <font-awesome-icon class="ikona" icon="clock"></font-awesome-icon>
             <span class="links_name">Scheduling </span>
           </router-link>
         </li>
@@ -176,7 +177,7 @@ export default {
     width: 100%;
     margin: 5px 0;
 
-    #ikona {
+    .ikona {
       height: 50px;
       text-align: center;
       cursor: pointer;
@@ -199,11 +200,6 @@ export default {
         background: $background_blue_hover;
       }
 
-      .artist-icon {
-        width: 21px;
-        height: 21px;
-      }
-
       .links_name {
         opacity: 1;
         pointer-events: auto;
@@ -212,6 +208,15 @@ export default {
 
     .active-link {
       color: $sidebar_text_selected;
+    }
+  }
+
+  .add-btn {
+    background-color: $purple_button;
+    color: #fff;
+
+    &:hover {
+      background-color: $purple_button_hover;
     }
   }
 }
