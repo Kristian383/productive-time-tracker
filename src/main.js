@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import BaseCard from "./components/ui/BaseCard.vue"
 
-
 import {
     faEdit,
     faTrash,
