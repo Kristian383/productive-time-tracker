@@ -6,6 +6,7 @@ const routes = [
   {
     path: "/time-entries",
     name: "Time entries",
+    props: (route) => ({ query: route.query }),
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/TimeEntriesView.vue"),
   },
@@ -13,7 +14,9 @@ const routes = [
     path: "/add-time-entry",
     name: "Add time entry",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../components/NewTimeEntry.vue"),
+      import(
+        /* webpackChunkName: "about" */ "../components/time-entry-item/NewTimeEntry.vue"
+      ),
   },
 ];
 

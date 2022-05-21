@@ -1,7 +1,8 @@
 <template>
-  <base-card>
-    <div class="add-time-entry-container">
-      <h2>New time entry</h2>
+  <div class="add-modal-wrapper open" id="modal" ref="modal">
+    <div class="add-time-entry-container add-modal">
+      <!-- <h2>New time entry</h2> -->
+      <h2>{{ formTitle }}</h2>
       <!-- <font-awesome-icon class="x-icon" icon="plus-circle" /> -->
       <div class="input-group error">
         <label for="project">Project</label>
@@ -36,14 +37,15 @@
       <!--  -->
       <div class="bottom-section">
         <button class="btn save">Save</button>
-        <button class="btn cancel">Cancel</button>
+        <button class="btn cancel" @click="closeModal">Cancel</button>
       </div>
     </div>
-  </base-card>
+  </div>
 </template>
 
 <script>
 import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   setup() {
@@ -51,6 +53,9 @@ export default {
     const project = ref("");
     const service = ref("");
     const quill = ref(null);
+    const route = useRoute();
+    const router = useRouter();
+    const formTitle = route.query.edit ? "Edit time entry" : "New time entry";
 
     const toolBarOptions = [
       ["bold", "italic", "underline"],
@@ -70,6 +75,10 @@ export default {
       console.log(quill.value.getHTML());
     }
 
+    function closeModal() {
+      router.push("/time-entries");
+    }
+
     return {
       duration,
       project,
@@ -79,67 +88,87 @@ export default {
       notesText,
       getHTML,
       quill,
+      formTitle,
+      closeModal,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.add-time-entry-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  justify-content: center;
-  max-width: 460px;
-  margin: 0 auto;
+.add-modal-wrapper {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  padding: 8px;
 
-  @include md {
-    padding: 1rem;
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  }
-
-  h2 {
-    text-align: center;
-  }
-
-  .x-icon {
-    transform: rotate(45deg);
-    font-size: 1.5rem;
-  }
-
-  .input-group {
-    @include input_group;
-
-    .duration-time-info {
-      position: absolute;
-      bottom: 0.7rem;
-      right: 1rem;
-    }
-  }
-
-  .bottom-section {
+  .add-time-entry-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     gap: 1rem;
+    justify-content: center;
+    max-width: 460px;
+    background-color: #fff;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 
-    .btn {
-      @include btn;
+    @include md {
+      padding: 1rem;
+      border: 1px solid $border_color;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
 
-      &.save {
-        background-color: $purple_button;
-        color: #fff;
+    h2 {
+      text-align: center;
+    }
 
-        &:hover {
-          background-color: $purple_button_hover;
-        }
+    .x-icon {
+      transform: rotate(45deg);
+      font-size: 1.5rem;
+    }
+
+    .input-group {
+      @include input_group;
+
+      .duration-time-info {
+        position: absolute;
+        bottom: 0.7rem;
+        right: 1rem;
       }
+    }
 
-      &.cancel {
-        background-color: $background_blue;
-        color: $purple_button;
+    .bottom-section {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
 
-        &:hover {
-          border-color: $purple_button;
+      .btn {
+        @include btn;
+
+        &.save {
+          background-color: $purple_button;
+          color: #fff;
+
+          &:hover {
+            background-color: $purple_button_hover;
+          }
+        }
+
+        &.cancel {
+          background-color: $background_blue;
+          color: $purple_button;
+
+          &:hover {
+            border-color: $purple_button;
+          }
         }
       }
     }

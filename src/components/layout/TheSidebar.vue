@@ -62,7 +62,8 @@
       </div>
       <ul class="nav_list">
         <li>
-          <router-link to="/add-time-entry" class="add-btn">
+          <router-link to="/time-entries?add=true" class="add-btn">
+            <!-- <router-link to="/add-time-entry" class="add-btn"> -->
             <!--active-class="active-link"-->
             <font-awesome-icon
               class="ikona"

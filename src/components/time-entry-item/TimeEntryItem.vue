@@ -26,13 +26,13 @@
       <span class="icon-wrapper" @click="toggleCopyPopup">
         <font-awesome-icon icon="ellipsis-h"></font-awesome-icon>
       </span>
-      <popup-edit :active="popupIsActive"></popup-edit>
+      <popup-edit :active="popupIsActive" id="2"></popup-edit>
     </div>
   </div>
 </template>
 
 <script>
-import PopupEdit from "./time-entry-item/PopupEdit.vue";
+import PopupEdit from "./PopupEdit.vue";
 
 import { ref } from "vue";
 
@@ -70,6 +70,7 @@ export default {
     border-radius: 0px 0px 6px 6px;
     border-bottom: none;
   }
+
   .first-column {
     display: flex;
     gap: 1rem;
@@ -122,6 +123,7 @@ export default {
 
     @include md {
       gap: 1rem;
+      justify-content: flex-end;
     }
   }
 
