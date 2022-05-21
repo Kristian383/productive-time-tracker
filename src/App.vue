@@ -35,14 +35,4 @@ html {
   display: flex;
   flex-direction: column;
 }
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-  transform: translateX(-100%);
-}
-.fade-leave-to,
-.fade-enter-from {
-  opacity: 0;
-}
 </style>
