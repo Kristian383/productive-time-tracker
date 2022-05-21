@@ -30,10 +30,12 @@ export default {
   setup(props) {
     // const route = useRoute();
     const showModal = computed(() => {
-      console.log(props.query);
       if (props.query.edit || props.query.add) {
+        document.body.style.overflowY = "hidden";
         return true;
       } else {
+        document.body.style.overflowY = "visible";
+
         return false;
       }
       // return props.query.edit ? props.query.edit : false;

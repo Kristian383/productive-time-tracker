@@ -1,5 +1,5 @@
 <template>
-  <div class="add-modal-wrapper open" id="modal" ref="modal">
+  <div class="add-modal-wrapper" id="modal" ref="modal">
     <div class="add-time-entry-container add-modal">
       <!-- <h2>New time entry</h2> -->
       <h2>{{ formTitle }}</h2>
@@ -97,29 +97,48 @@ export default {
 
 <style lang="scss" scoped>
 .add-modal-wrapper {
-  background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 999;
-  padding: 8px;
+  width: 100%;
+  height: 100%;
+  z-index: 32;
+  overflow-y: scroll;
+
+  -webkit-overflow-scrolling: touch;
+
+  @include sm {
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.3);
+    // position: fixed;
+    // top: 0;
+    // left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    overflow-y: hidden;
+  }
 
   .add-time-entry-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     justify-content: center;
-    max-width: 460px;
     background-color: #fff;
     position: relative;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    padding: 1rem;
 
-    @include md {
-      padding: 1rem;
+    overflow: hidden;
+    height: 100vh;
+
+    @include sm {
+      height: auto;
+      padding: 2rem;
+      max-width: 460px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
       border: 1px solid $border_color;
       border-radius: 5px;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -171,6 +190,68 @@ export default {
           }
         }
       }
+    }
+  }
+}
+
+/**
+ * Modal
+ */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0 auto;
+  background-color: #fff;
+  width: 600px;
+  max-width: 75rem;
+  min-height: 20rem;
+  padding: 1rem;
+  border-radius: 3px;
+  opacity: 0;
+  overflow-y: auto;
+  visibility: hidden;
+  box-shadow: 0 2px 10px rgba(#000, 0.1);
+  backface-visibility: hidden;
+  transform: scale(1.2);
+  //   transition: all $speed $easing;
+
+  .close-modal {
+    position: absolute;
+    cursor: pointer;
+    top: 5px;
+    right: 15px;
+    opacity: 0;
+    backface-visibility: hidden;
+    // transition: opacity $speed $easing, transform $speed $easing;
+    // transition-delay: $delay;
+
+    svg {
+      width: 1.75em;
+      height: 1.75em;
+    }
+  } // close modal
+
+  .modal-content {
+    opacity: 0;
+    backface-visibility: hidden;
+    // transition: opacity $speed $easing;
+    // transition-delay: $delay;
+  } // content
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+
+    .modal-content {
+      opacity: 1;
+    }
+
+    .close-modal {
+      transform: translateY(10px);
+      opacity: 1;
     }
   }
 }
