@@ -72,10 +72,10 @@ export default {
   &.expand_home_section {
     left: 240px;
     width: calc(100% - 240px);
+  }
 
-    @include sm {
-      padding-top: 1.5rem;
-    }
+  @include sm {
+    padding-top: 1.5rem;
   }
 }
 

@@ -10,12 +10,6 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/TimeEntriesView.vue"),
   },
   {
-    path: "/new-time-entry",
-    name: "Add time entry",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../components/AddTimeEntry.vue"),
-  },
-  {
     path: "/add-time-entry",
     name: "Add time entry",
     component: () =>

@@ -136,6 +136,7 @@ export default {
 
       &.cancel {
         background-color: $background_blue;
+        color: $purple_button;
 
         &:hover {
           border-color: $purple_button;

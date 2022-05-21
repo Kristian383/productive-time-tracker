@@ -1,9 +1,18 @@
 <template>
-  <base-card> Time entries</base-card>
+  <base-card>
+    <div class="time-entries-container">
+      <time-entry-item></time-entry-item>
+    </div>
+  </base-card>
 </template>
 
 <script>
-export default {};
+import TimeEntryItem from "../components/TimeEntryItem.vue";
+export default {
+  components: {
+    TimeEntryItem,
+  },
+};
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>
