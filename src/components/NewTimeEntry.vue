@@ -23,6 +23,16 @@
         <span class="duration-time-info">= 24h 18min</span>
       </div>
       <label for="note"><b>Note</b></label>
+      <quill-editor
+        ref="quill"
+        theme="snow"
+        :toolbar="toolBarOptions"
+        v-model:content="notes"
+        placeholder="Enter a note"
+        @update:content="getHTML"
+      ></quill-editor>
+      <!--  -->
+      <p>{{ notesText }}</p>
       <!--  -->
       <div class="bottom-section">
         <button class="btn save">Save</button>
@@ -37,8 +47,39 @@ import { ref } from "vue";
 
 export default {
   setup() {
-    const duration = ref();
-    return { duration };
+    const duration = ref("");
+    const project = ref("");
+    const service = ref("");
+    const quill = ref(null);
+
+    const toolBarOptions = [
+      ["bold", "italic", "underline"],
+      [{ list: "ordered" }, { list: "bullet" }],
+    ];
+
+    const notes = ref("");
+    const notesText = ref("");
+
+    // watch(notes, (newNotes) => {
+    //   console.log(`x is`, newNotes.ops);
+    //   notesText.value = newNotes.ops;
+    // });
+
+    function getHTML() {
+      //   console.log(e);
+      console.log(quill.value.getHTML());
+    }
+
+    return {
+      duration,
+      project,
+      service,
+      toolBarOptions,
+      notes,
+      notesText,
+      getHTML,
+      quill,
+    };
   },
 };
 </script>
