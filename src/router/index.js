@@ -10,14 +10,6 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/TimeEntriesView.vue"),
   },
-  {
-    path: "/add-time-entry",
-    name: "Add time entry",
-    component: () =>
-      import(
-        /* webpackChunkName: "about" */ "../components/time-entry-item/NewTimeEntry.vue"
-      ),
-  },
 ];
 
 const router = createRouter({
