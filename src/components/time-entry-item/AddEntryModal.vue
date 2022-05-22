@@ -1,9 +1,7 @@
 <template>
   <div class="add-modal-wrapper" id="modal" ref="modal">
     <div class="add-time-entry-container">
-      <!-- <h2>New time entry</h2> -->
       <h2>{{ formTitle }}</h2>
-      <!-- <font-awesome-icon class="x-icon" icon="plus-circle" /> -->
       <div class="input-group error">
         <label for="project">Project</label>
         <input id="project" v-model="project" type="text" :disabled="true" />
@@ -34,11 +32,9 @@
         ref="quill"
         theme="snow"
         :toolbar="toolBarOptions"
-        v-model:content="notes"
         placeholder="Enter a note"
-        @update:content="getHTML"
       ></quill-editor>
-      <!--  -->
+      <!-- v-model:content="notes" -->
       <!--  -->
       <div class="bottom-section">
         <button class="btn save" @click="handleSubmit">Save</button>
@@ -56,12 +52,13 @@ import { useStore } from "vuex";
 export default {
   setup() {
     const store = useStore();
+    const router = useRouter();
+    const route = useRoute();
+
     const project = ref("Productive task for junior fronted developer");
     const service = ref("");
     const serviceName = ref("");
     const quill = ref(null);
-    const route = useRoute();
-    const router = useRouter();
     const todaysDate = store.getters["time/getTodaysDate"];
     const formTitle = route.query.edit ? "Edit time entry" : "New time entry";
 
@@ -70,8 +67,7 @@ export default {
       [{ list: "ordered" }, { list: "bullet" }],
     ];
 
-    const notes = ref("");
-    // const notesText = ref("");
+    // const notes = ref("");
 
     const duration = ref("");
 
@@ -84,8 +80,6 @@ export default {
     }
 
     function handleSubmit() {
-      // console.log(first)
-      console.log(todaysDate);
       const payload = {
         data: {
           type: "time_entries",
@@ -94,30 +88,52 @@ export default {
             date: todaysDate,
             time: Number(duration.value),
           },
-          relationships: {
-            person: {
-              data: {
-                type: "people",
-                id: "271393",
-              },
-            },
-            service: {
-              data: {
-                type: "services",
-                id: service.value.id,
-              },
-            },
-          },
+          // relationships: {
+          //   person: {
+          //     data: {
+          //       type: "people",
+          //       id: "271393",
+          //     },
+          //   },
+          //   service: {
+          //     data: {
+          //       type: "services",
+          //       id: service.value.id,
+          //     },
+          //   },
+          // },
         },
       };
-      // console.log(service.value);
-      console.log(payload);
-      store.dispatch("time/postTimeEntry", payload);
-    }
 
-    function getHTML() {
-      //   console.log(e);
-      console.log(quill.value.getHTML());
+      if (route.query.add) {
+        payload.data.relationships = {
+          person: {
+            data: {
+              type: "people",
+              id: "271393",
+            },
+          },
+          service: {
+            data: {
+              type: "services",
+              id: service.value.id,
+            },
+          },
+        };
+
+        store.dispatch("time/postTimeEntry", payload).then((res) => {
+          if (res === true) {
+            router.push("time-entries");
+          }
+        });
+      } else {
+        payload.id = route.query.edit;
+        store.dispatch("time/editTimeEntry", payload).then((res) => {
+          if (res === true) {
+            router.push("time-entries");
+          }
+        });
+      }
     }
 
     function closeModal() {
@@ -125,14 +141,24 @@ export default {
     }
 
     onMounted(() => {
+      //load first service -> this is half hardcoded
       const services = store.getters["time/getServices"];
       if (services.length === 0) {
         router.push("/time-entries");
         return;
       }
+
       service.value = services[0];
       serviceName.value = service.value.attributes.name;
-      // console.log(service.value);
+
+      let editId = route.query.edit;
+      if (editId) {
+        const timeEntryData = store.getters["time/getTimeEntry"](editId);
+
+        const quillContent = timeEntryData.attributes.note;
+        quill.value.setHTML(quillContent);
+        console.log(timeEntryData);
+      }
     });
 
     return {
@@ -140,9 +166,7 @@ export default {
       project,
       service,
       toolBarOptions,
-      notes,
-      // notesText,
-      getHTML,
+      // notes,
       quill,
       formTitle,
       closeModal,

@@ -23,5 +23,10 @@ export default {
         if (index != -1) {
             state.timeEntries.splice(index, 1)
         }
+    },
+    editTimeEntry(state, payload) {
+        let index = state.timeEntries.findIndex(entry => entry.id === payload.id)
+        console.log(index)
+        state.timeEntries[index] = payload;
     }
 }

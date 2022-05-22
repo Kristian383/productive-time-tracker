@@ -8,5 +8,10 @@ export default {
     },
     getTodaysDate() {
         return new Date().toISOString().slice(0, 10);
+    },
+    getTimeEntry(state) {
+        return (id) => {
+            return state.timeEntries.find(entry => entry.id === id)
+        }
     }
 }
