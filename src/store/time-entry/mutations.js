@@ -18,4 +18,10 @@ export default {
         state.services = payload
         // console.log(state.services)
     },
+    deleteTimeEntry(state, id) {
+        let index = state.timeEntries.findIndex(entry => entry.id === id)
+        if (index != -1) {
+            state.timeEntries.splice(index, 1)
+        }
+    }
 }

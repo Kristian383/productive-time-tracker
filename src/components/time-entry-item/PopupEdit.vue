@@ -7,7 +7,7 @@
           <font-awesome-icon icon="edit"></font-awesome-icon>
           Edit</router-link
         >
-        <span>
+        <span @click="handleDeleteEntry">
           <font-awesome-icon icon="edit"></font-awesome-icon>
           Delete
         </span>
@@ -17,13 +17,21 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
 // import { ref } from "vue";
 export default {
   props: ["active", "id"],
-  setup() {
+  setup(props) {
     // const popupIsActive = ref(false);
+    const store = useStore();
+
+    function handleDeleteEntry() {
+      // console.log(props.id);
+      store.dispatch("time/deleteTimeEntry", props.id);
+    }
 
     return {
+      handleDeleteEntry,
       //   popupIsActive,
     };
   },

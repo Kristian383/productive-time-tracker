@@ -7,7 +7,7 @@
         alt="Project"
       />
       <div class="entry-project-service">
-        <p><b>Lorem ipsum dolor sit amet consectetur adipisicing elit.</b></p>
+        <p><b>Productive task for junior fronted developer</b></p>
         <p style="color: #636688">{{ entry.attributes.service_name }}</p>
       </div>
     </div>

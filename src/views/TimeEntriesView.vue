@@ -1,8 +1,6 @@
 <template>
   <base-card>
-    <h2 style="margin-bottom: 1rem; text-align: center">
-      Time entries for today ({{ todayFormated }})
-    </h2>
+    <h2 class="title">Time entries for today ({{ todayFormated }})</h2>
     <div class="time-entries-container">
       <time-entry-item
         v-for="entry in allTimeEntries"
@@ -70,6 +68,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: $text_dark;
+}
+
 .time-entries-container {
   border-radius: 6px;
   border: 1px solid $border_color;
