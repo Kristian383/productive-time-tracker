@@ -1,7 +1,6 @@
 <template>
   <the-header></the-header>
   <the-sidebar></the-sidebar>
-
   <router-view />
 </template>
 
@@ -41,10 +40,4 @@ export default {
 html {
   scroll-behavior: smooth;
 }
-
-// #app {
-//   min-height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-// }
 </style>

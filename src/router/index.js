@@ -8,12 +8,12 @@ const routes = [
     name: "Time entries",
     props: (route) => ({ query: route.query }),
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/TimeEntriesView.vue"),
+      import(/* webpackChunkName: "" */ "../views/TimeEntriesView.vue"),
   },
   {
     path: "/:notFound(.*)*",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/NotFoundView.vue"),
+      import(/* webpackChunkName: "" */ "../views/NotFoundView.vue"),
     meta: { title: "Not Found" },
   },
 ];

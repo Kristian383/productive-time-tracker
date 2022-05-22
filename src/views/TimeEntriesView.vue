@@ -9,7 +9,6 @@
       ></time-entry-item>
     </div>
     <transition name="fade">
-      <!-- <add-modal :isActive="showModal"></add-modal> -->
       <AddEntryModal v-if="showModal"></AddEntryModal>
     </transition>
   </base-card>
@@ -17,10 +16,7 @@
 
 <script>
 import TimeEntryItem from "../components/time-entry-item/TimeEntryItem.vue";
-// import { useRoute } from "vue-router";
-// import EditTimeEntry from "../components/time-entry-item/EditTimeEntry.vue";
 import AddEntryModal from "../components/time-entry-item/AddEntryModal.vue";
-// import AddModal from "../components/time-entry-item/AddModal.vue";
 
 import { computed } from "vue";
 import { useStore } from "vuex";
@@ -28,13 +24,10 @@ import { useStore } from "vuex";
 export default {
   components: {
     TimeEntryItem,
-    // AddModal,
-    // EditTimeEntry,
     AddEntryModal,
   },
   props: ["query"],
   setup(props) {
-    // const route = useRoute();
     const store = useStore();
     const todayFormated = store.getters["time/getTodaysDate"];
 
@@ -44,19 +37,13 @@ export default {
 
     const showModal = computed(() => {
       if (props.query.edit || props.query.add) {
-        // document.body.style.position = "fixed";
         document.body.style.overflow = "hidden";
         return true;
       } else {
-        // document.body.style.position = "";
         document.body.style.overflow = "visible";
         return false;
       }
-      // return props.query.edit ? props.query.edit : false;
     });
-
-    // console.log(route);
-    // console.log(props.query);
 
     return {
       showModal,

@@ -18,21 +18,17 @@
 
 <script>
 import { useStore } from "vuex";
-// import { ref } from "vue";
 export default {
   props: ["active", "id"],
   setup(props) {
-    // const popupIsActive = ref(false);
     const store = useStore();
 
     function handleDeleteEntry() {
-      // console.log(props.id);
       store.dispatch("time/deleteTimeEntry", props.id);
     }
 
     return {
       handleDeleteEntry,
-      //   popupIsActive,
     };
   },
 };
@@ -42,7 +38,6 @@ export default {
 .popup-edit {
   position: absolute;
   top: 40px;
-  // bottom: -6rem;
   right: 0;
   background-color: #fff;
   display: flex;
