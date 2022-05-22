@@ -17,7 +17,9 @@
     </div>
     <!--  -->
     <div class="duration-edit-data">
-      <span class="duration">03:00</span>
+      <span style="min-width: 75px" class="duration">{{
+        calculatedDuration
+      }}</span>
       <span class="icon-wrapper">
         <font-awesome-icon icon="play"></font-awesome-icon>
       </span>
@@ -32,8 +34,9 @@
 
 <script>
 import PopupEdit from "./PopupEdit.vue";
+import calculateDuration from "@/helpers/calculateDuration";
 
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 export default {
   components: { PopupEdit },
@@ -41,10 +44,9 @@ export default {
   setup(props) {
     const popupIsActive = ref(false);
     const timerStarted = ref(props.entry.attributes.timer_started_at);
-    // time,timer_started_at,timer_stopped_at
-    setTimeout(() => {
-      // console.log(props.entry.attributes);
-    }, 2000);
+    const calculatedDuration = computed(() => {
+      return calculateDuration(props.entry.attributes.time);
+    });
 
     function toggleCopyPopup() {
       popupIsActive.value = !popupIsActive.value;
@@ -54,6 +56,7 @@ export default {
       toggleCopyPopup,
       popupIsActive,
       timerStarted,
+      calculatedDuration,
     };
   },
 };

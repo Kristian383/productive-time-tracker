@@ -111,8 +111,7 @@ export default {
     async postTimeEntry(context, payload) {
 
         let url = `https://api.productive.io/api/v2/time_entries`;
-        const bod = JSON.stringify({ ...payload })
-        console.log(bod)
+
         let response;
         try {
             response = await fetch(url, {
@@ -136,8 +135,8 @@ export default {
         if (response.status === 201) {
 
             const responseData = await response.json();
-            context.commit("setTimeEntries", [responseData.data])
-            console.log(responseData.data)
+            context.commit("unshiftTimeEntry", responseData.data)
+            // console.log(responseData.data)
             return true
         }
     },

@@ -23,5 +23,8 @@ export default {
     editTimeEntry(state, payload) {
         let index = state.timeEntries.findIndex(entry => entry.id === payload.id)
         state.timeEntries[index] = payload;
+    },
+    unshiftTimeEntry(state, payload) {
+        state.timeEntries.unshift(payload)
     }
 }

@@ -2,30 +2,33 @@
   <div class="add-modal-wrapper" id="modal" ref="modal">
     <div class="add-time-entry-container">
       <h2>{{ formTitle }}</h2>
-      <div class="input-group error">
+      <div class="input-group">
         <label for="project">Project</label>
         <input id="project" v-model="project" type="text" :disabled="true" />
       </div>
-      <div class="input-group error">
+      <div class="input-group">
         <label for="service">Service</label>
         <input
           id="service"
-          v-model="serviceName"
+          v-model.trim="serviceName"
           type="text"
           :disabled="true"
         />
       </div>
       <div><b>Date</b>: {{ todaysDate }}</div>
-      <div class="input-group error">
+      <div class="input-group">
+        <span class="duration-time-info">= {{ calculatedDuration }}</span>
         <label for="duration">Duration</label>
         <input
           id="duration"
           v-model="duration"
           type="text"
-          placeholder="00:00"
+          placeholder="insert minutes"
           @input="handleDuration"
         />
-        <span class="duration-time-info">= 24h 18min</span>
+        <p style="color: red; font-size: 14px" v-if="!durationIsValid">
+          Only valid numbers please
+        </p>
       </div>
       <label for="note"><b>Note</b></label>
       <quill-editor
@@ -34,7 +37,6 @@
         :toolbar="toolBarOptions"
         placeholder="Enter a note"
       ></quill-editor>
-      <!-- v-model:content="notes" -->
       <!--  -->
       <div class="bottom-section">
         <button class="btn save" @click="handleSubmit">Save</button>
@@ -48,6 +50,8 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
+
+import calculateDuration from "@/helpers/calculateDuration";
 
 export default {
   setup() {
@@ -67,19 +71,32 @@ export default {
       [{ list: "ordered" }, { list: "bullet" }],
     ];
 
-    // const notes = ref("");
-
     const duration = ref("");
+    const durationIsValid = ref(true);
+    const calculatedDuration = ref("0min");
 
-    function handleDuration(e) {
-      let regex = /(^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$)/;
-      console.log(regex.test(e.value));
-      // if (duration.value) {
-      //   console.log(duration.value);
-      // }
+    function handleDuration() {
+      //simple regex since we only expect "minutes"
+      var reg = /^[1-9]\d*$/;
+
+      if (!reg.test(duration.value) || duration.value > 10000) {
+        durationIsValid.value = false;
+        calculatedDuration.value = "0 min";
+        return;
+      }
+
+      if (duration.value) {
+        calculatedDuration.value = calculateDuration(duration.value);
+        durationIsValid.value = true;
+      }
     }
 
     function handleSubmit() {
+      if (!durationIsValid.value || duration.value <= 0) {
+        durationIsValid.value = false;
+        return;
+      }
+
       const payload = {
         data: {
           type: "time_entries",
@@ -88,20 +105,6 @@ export default {
             date: todaysDate,
             time: Number(duration.value),
           },
-          // relationships: {
-          //   person: {
-          //     data: {
-          //       type: "people",
-          //       id: "271393",
-          //     },
-          //   },
-          //   service: {
-          //     data: {
-          //       type: "services",
-          //       id: service.value.id,
-          //     },
-          //   },
-          // },
         },
       };
 
@@ -157,7 +160,10 @@ export default {
 
         const quillContent = timeEntryData.attributes.note;
         quill.value.setHTML(quillContent);
-        console.log(timeEntryData);
+        duration.value = timeEntryData.attributes.time;
+        calculatedDuration.value = calculateDuration(duration.value);
+
+        // console.log(timeEntryData);
       }
     });
 
@@ -166,7 +172,6 @@ export default {
       project,
       service,
       toolBarOptions,
-      // notes,
       quill,
       formTitle,
       closeModal,
@@ -174,6 +179,8 @@ export default {
       todaysDate,
       handleDuration,
       handleSubmit,
+      durationIsValid,
+      calculatedDuration,
     };
   },
 };
@@ -234,7 +241,8 @@ export default {
 
       .duration-time-info {
         position: absolute;
-        bottom: 0.7rem;
+        // bottom: 0.7rem;
+        top: 2.7rem;
         right: 1rem;
       }
     }
