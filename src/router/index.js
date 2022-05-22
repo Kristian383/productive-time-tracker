@@ -10,6 +10,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/TimeEntriesView.vue"),
   },
+  {
+    path: "/:notFound(.*)*",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/NotFoundView.vue"),
+    meta: { title: "Not Found" },
+  },
 ];
 
 const router = createRouter({
