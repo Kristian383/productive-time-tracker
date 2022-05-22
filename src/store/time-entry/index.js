@@ -8,7 +8,9 @@ export default {
     state() {
         return {
             person_ID: null,
-            organization_ID: "20530"
+            organization_ID: "20530",
+            timeEntries: [],
+            services: [],
         };
     },
     getters,

@@ -1,13 +1,13 @@
 <template>
   <base-card>
     <h2 style="margin-bottom: 1rem; text-align: center">
-      Time entries for today (20-05-2022)
+      Time entries for today ({{ todayFormated }})
     </h2>
     <div class="time-entries-container">
       <time-entry-item
-        v-for="time in 3"
-        :key="time"
-        :id="time"
+        v-for="entry in allTimeEntries"
+        :key="entry.id"
+        :entry="entry"
       ></time-entry-item>
     </div>
     <transition name="fade">
@@ -25,6 +25,7 @@ import AddEntryModal from "../components/time-entry-item/AddEntryModal.vue";
 // import AddModal from "../components/time-entry-item/AddModal.vue";
 
 import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   components: {
@@ -35,20 +36,23 @@ export default {
   },
   props: ["query"],
   setup(props) {
+    const todayFormated = new Date().toISOString().slice(0, 10);
+
     // const route = useRoute();
-    // const activateModal = ref(false);
+    const store = useStore();
+
+    const allTimeEntries = computed(() => {
+      return store.getters["time/getTimeEntries"];
+    });
 
     const showModal = computed(() => {
       if (props.query.edit || props.query.add) {
-        document.body.style.position = "fixed";
+        // document.body.style.position = "fixed";
         document.body.style.overflow = "hidden";
-        // activateModal.value = true;
         return true;
       } else {
-        document.body.style.position = "";
+        // document.body.style.position = "";
         document.body.style.overflow = "visible";
-
-        // activateModal.value = false;
         return false;
       }
       // return props.query.edit ? props.query.edit : false;
@@ -57,7 +61,11 @@ export default {
     // console.log(route);
     // console.log(props.query);
 
-    return { showModal };
+    return {
+      showModal,
+      allTimeEntries,
+      todayFormated,
+    };
   },
 };
 </script>

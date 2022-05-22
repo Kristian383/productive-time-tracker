@@ -48,11 +48,19 @@ export default {
         if (person_ID) return true
         console.log(person_ID)
     },
-    async fetchTimeEntries() {
-        let today = new Date().toISOString().slice(0, 10);
+    async fetchTimeEntries(context) {
+        let today = new Date()
+        let todayFormated = today.toISOString().slice(0, 10);
+        let tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1)
+        let tomorrowFormated = tomorrow.toISOString().slice(0, 10);
 
-        console.log(today)
-        let url = `https://api.productive.io/api/v2/time_entries?filter[person_id]=${person_ID}`;
+        // console.log("tomorrowFormated", tomorrowFormated)
+        // console.log("todayFormated", todayFormated)
+
+        //filtered time entries for today and for person with id = person_ID
+        let url = `https://api.productive.io/api/v2/time_entries?filter[person_id]=${person_ID}&filter[after]=${todayFormated}&filter[before]=${tomorrowFormated}`;
+        // url = `https://api.productive.io/api/v2/time_entries?filter[person_id]=${person_ID}`;
 
         let response;
         try {
@@ -74,6 +82,48 @@ export default {
         }
 
         const responseData = await response.json();
+        // console.log(responseData.data)
+
+
+        const services = responseData.included.filter(el => {
+            return el.type === "services"
+        })
+
+        context.commit("setServices", services);
+        context.commit("setTimeEntries", responseData.data)
+
+        // console.log("services", services)
+
+    },
+    async postTimeEntries() {
+
+        let url = `https://api.productive.io/api/v2/time_entries`;
+
+        let response;
+        try {
+            response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/vnd.api+json",
+                    "X-Auth-Token": "2a02e54d-3877-40a9-8919-093f0186eb7e",
+                    "X-Organization-Id": organization_ID
+                },
+                body: {
+
+                }
+            });
+        } catch {
+            return "There was an error!";
+        }
+
+        if (!response.ok) {
+            console.log(response.status);
+            return false;
+        }
+
+        const responseData = await response.json();
+
+
         console.log(responseData.data)
     },
 };

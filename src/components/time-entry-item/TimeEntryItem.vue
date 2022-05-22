@@ -8,14 +8,12 @@
       />
       <div class="entry-project-service">
         <p><b>Lorem ipsum dolor sit amet consectetur adipisicing elit.</b></p>
-        <p style="color: #636688">Open hours</p>
+        <p style="color: #636688">{{ entry.attributes.service_name }}</p>
       </div>
     </div>
     <!--  -->
     <div class="entry-notes">
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dicta fugit
-      repudiandae esse cupiditate fugiat. Illum architecto rerum natus sed
-      facilis!
+      <div v-html="entry.attributes.note"></div>
     </div>
     <!--  -->
     <div class="duration-edit-data">
@@ -23,10 +21,11 @@
       <span class="icon-wrapper">
         <font-awesome-icon icon="play"></font-awesome-icon>
       </span>
-      <span class="icon-wrapper" @click="toggleCopyPopup">
-        <font-awesome-icon icon="ellipsis-h"></font-awesome-icon>
-      </span>
-      <popup-edit :active="popupIsActive" :id="id"></popup-edit>
+      <popup-edit :active="popupIsActive" :id="entry.id">
+        <span class="icon-wrapper" @click="toggleCopyPopup">
+          <font-awesome-icon icon="ellipsis-h"></font-awesome-icon>
+        </span>
+      </popup-edit>
     </div>
   </div>
 </template>
@@ -38,9 +37,14 @@ import { ref } from "vue";
 
 export default {
   components: { PopupEdit },
-  props: ["id"],
-  setup() {
+  props: ["entry"],
+  setup(props) {
     const popupIsActive = ref(false);
+    const timerStarted = ref(props.entry.attributes.timer_started_at);
+    // time,timer_started_at,timer_stopped_at
+    setTimeout(() => {
+      console.log(props.entry.attributes);
+    }, 2000);
 
     function toggleCopyPopup() {
       popupIsActive.value = !popupIsActive.value;
@@ -49,6 +53,7 @@ export default {
     return {
       toggleCopyPopup,
       popupIsActive,
+      timerStarted,
     };
   },
 };
@@ -76,7 +81,7 @@ export default {
   .first-column {
     display: flex;
     gap: 1rem;
-    align-items: center;
+    align-items: flex-start;
     color: $text_dark;
     // flex-grow: 1;
 
@@ -95,15 +100,21 @@ export default {
   .entry-notes {
     // flex-grow: 3;
     display: flex;
+    padding-left: 1rem;
   }
 
   .duration-edit-data {
     // flex-grow: 2;
     display: flex;
-    gap: 2.4rem;
     align-items: center;
+
     justify-content: center;
     position: relative;
+    gap: 1rem;
+
+    @include md {
+      gap: 2.4rem;
+    }
 
     .duration {
       font-size: 1rem;
@@ -125,7 +136,8 @@ export default {
 
     @include md {
       gap: 1rem;
-      justify-content: flex-end;
+      // justify-content: flex-end;
+      margin-left: auto;
     }
   }
 

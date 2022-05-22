@@ -1,19 +1,19 @@
 <template>
-  <transition name="bounce">
-    <div v-if="active" class="popup-edit">
-      <!-- <span> -->
-      <router-link :to="'?edit=' + id">
-        <font-awesome-icon icon="edit"></font-awesome-icon>
-        Edit</router-link
-      >
-
-      <!-- </span> -->
-      <span>
-        <font-awesome-icon icon="edit"></font-awesome-icon>
-        Delete
-      </span>
-    </div>
-  </transition>
+  <div style="position: relative">
+    <slot></slot>
+    <transition name="bounce">
+      <div v-if="active" class="popup-edit">
+        <router-link :to="'?edit=' + id">
+          <font-awesome-icon icon="edit"></font-awesome-icon>
+          Edit</router-link
+        >
+        <span>
+          <font-awesome-icon icon="edit"></font-awesome-icon>
+          Delete
+        </span>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -33,7 +33,8 @@ export default {
 <style lang="scss" scoped>
 .popup-edit {
   position: absolute;
-  top: 53px;
+  top: 40px;
+  // bottom: -6rem;
   right: 0;
   background-color: #fff;
   display: flex;
