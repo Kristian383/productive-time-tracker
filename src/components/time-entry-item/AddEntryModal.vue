@@ -25,6 +25,7 @@
           v-model="duration"
           type="text"
           placeholder="00:00"
+          @input="handleDuration"
         />
         <span class="duration-time-info">= 24h 18min</span>
       </div>
@@ -38,10 +39,9 @@
         @update:content="getHTML"
       ></quill-editor>
       <!--  -->
-      <p>{{ notesText }}</p>
       <!--  -->
       <div class="bottom-section">
-        <button class="btn save">Save</button>
+        <button class="btn save" @click="handleSubmit">Save</button>
         <button class="btn cancel" @click="closeModal">Cancel</button>
       </div>
     </div>
@@ -56,7 +56,6 @@ import { useStore } from "vuex";
 export default {
   setup() {
     const store = useStore();
-    const duration = ref("");
     const project = ref("Productive task for junior fronted developer");
     const service = ref("");
     const serviceName = ref("");
@@ -72,7 +71,49 @@ export default {
     ];
 
     const notes = ref("");
-    const notesText = ref("");
+    // const notesText = ref("");
+
+    const duration = ref("");
+
+    function handleDuration(e) {
+      let regex = /(^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$)/;
+      console.log(regex.test(e.value));
+      // if (duration.value) {
+      //   console.log(duration.value);
+      // }
+    }
+
+    function handleSubmit() {
+      // console.log(first)
+      console.log(todaysDate);
+      const payload = {
+        data: {
+          type: "time_entries",
+          attributes: {
+            note: quill.value.getHTML(),
+            date: todaysDate,
+            time: Number(duration.value),
+          },
+          relationships: {
+            person: {
+              data: {
+                type: "people",
+                id: "271393",
+              },
+            },
+            service: {
+              data: {
+                type: "services",
+                id: service.value.id,
+              },
+            },
+          },
+        },
+      };
+      // console.log(service.value);
+      console.log(payload);
+      store.dispatch("time/postTimeEntry", payload);
+    }
 
     function getHTML() {
       //   console.log(e);
@@ -91,7 +132,7 @@ export default {
       }
       service.value = services[0];
       serviceName.value = service.value.attributes.name;
-      console.log(serviceName.value);
+      // console.log(service.value);
     });
 
     return {
@@ -100,13 +141,15 @@ export default {
       service,
       toolBarOptions,
       notes,
-      notesText,
+      // notesText,
       getHTML,
       quill,
       formTitle,
       closeModal,
       serviceName,
       todaysDate,
+      handleDuration,
+      handleSubmit,
     };
   },
 };
