@@ -4,9 +4,14 @@
       Time entries for today (20-05-2022)
     </h2>
     <div class="time-entries-container">
-      <time-entry-item v-for="time in 3" :key="time"></time-entry-item>
+      <time-entry-item
+        v-for="time in 3"
+        :key="time"
+        :id="time"
+      ></time-entry-item>
     </div>
     <transition name="fade">
+      <!-- <add-modal :isActive="showModal"></add-modal> -->
       <AddEntryModal v-if="showModal"></AddEntryModal>
     </transition>
   </base-card>
@@ -17,29 +22,38 @@ import TimeEntryItem from "../components/time-entry-item/TimeEntryItem.vue";
 // import { useRoute } from "vue-router";
 // import EditTimeEntry from "../components/time-entry-item/EditTimeEntry.vue";
 import AddEntryModal from "../components/time-entry-item/AddEntryModal.vue";
+// import AddModal from "../components/time-entry-item/AddModal.vue";
 
 import { computed } from "vue";
 
 export default {
   components: {
     TimeEntryItem,
+    // AddModal,
     // EditTimeEntry,
     AddEntryModal,
   },
   props: ["query"],
   setup(props) {
     // const route = useRoute();
+    // const activateModal = ref(false);
+
     const showModal = computed(() => {
       if (props.query.edit || props.query.add) {
-        document.body.style.overflowY = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.overflow = "hidden";
+        // activateModal.value = true;
         return true;
       } else {
-        document.body.style.overflowY = "visible";
+        document.body.style.position = "";
+        document.body.style.overflow = "visible";
 
+        // activateModal.value = false;
         return false;
       }
       // return props.query.edit ? props.query.edit : false;
     });
+
     // console.log(route);
     // console.log(props.query);
 
@@ -54,5 +68,6 @@ export default {
   border: 1px solid $border_color;
   max-width: 1300px;
   margin: 0 auto;
+  position: relative;
 }
 </style>

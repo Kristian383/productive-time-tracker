@@ -3,15 +3,8 @@
     class="home-section"
     :class="{ expand_home_section: sidebarIsActive && isDesktop }"
   >
-    <!-- <div class="home-content"> -->
-    <!-- <div class="sort-section-title">
-        <h2 class="title">
-          <span>{{ Title }}</span>
-        </h2>
-      </div> -->
     <slot></slot>
     <!-- <scroll-up :class="{ show: showBackToTop }"></scroll-up> -->
-    <!-- </div> -->
   </div>
 </template>
 
@@ -68,6 +61,7 @@ export default {
   min-height: 100vh;
   transition: all 0.5s ease;
   padding: 6rem 1.5rem 1rem 1.5rem;
+  // overflow-y: auto;
 
   &.expand_home_section {
     left: 240px;

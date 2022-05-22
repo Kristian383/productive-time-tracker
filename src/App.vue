@@ -42,9 +42,9 @@ html {
   scroll-behavior: smooth;
 }
 
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+// #app {
+//   min-height: 100vh;
+//   display: flex;
+//   flex-direction: column;
+// }
 </style>

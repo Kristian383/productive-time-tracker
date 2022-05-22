@@ -26,7 +26,7 @@
       <span class="icon-wrapper" @click="toggleCopyPopup">
         <font-awesome-icon icon="ellipsis-h"></font-awesome-icon>
       </span>
-      <popup-edit :active="popupIsActive" id="2"></popup-edit>
+      <popup-edit :active="popupIsActive" :id="id"></popup-edit>
     </div>
   </div>
 </template>
@@ -38,12 +38,14 @@ import { ref } from "vue";
 
 export default {
   components: { PopupEdit },
+  props: ["id"],
   setup() {
     const popupIsActive = ref(false);
 
     function toggleCopyPopup() {
       popupIsActive.value = !popupIsActive.value;
     }
+
     return {
       toggleCopyPopup,
       popupIsActive,
