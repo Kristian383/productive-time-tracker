@@ -49,14 +49,13 @@ export default {
         console.log(person_ID)
     },
     async fetchTimeEntries(context) {
-        let today = new Date()
-        let todayFormated = today.toISOString().slice(0, 10);
+        // console.log()
+        // let today = new Date()
+        // let todayFormated = today.toISOString().slice(0, 10);
+        let todayFormated = context.rootGetters["time/getTodaysDate"];
         let tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1)
         let tomorrowFormated = tomorrow.toISOString().slice(0, 10);
-
-        // console.log("tomorrowFormated", tomorrowFormated)
-        // console.log("todayFormated", todayFormated)
 
         //filtered time entries for today and for person with id = person_ID
         let url = `https://api.productive.io/api/v2/time_entries?filter[person_id]=${person_ID}&filter[after]=${todayFormated}&filter[before]=${tomorrowFormated}`;

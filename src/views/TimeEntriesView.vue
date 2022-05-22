@@ -36,10 +36,9 @@ export default {
   },
   props: ["query"],
   setup(props) {
-    const todayFormated = new Date().toISOString().slice(0, 10);
-
     // const route = useRoute();
     const store = useStore();
+    const todayFormated = store.getters["time/getTodaysDate"];
 
     const allTimeEntries = computed(() => {
       return store.getters["time/getTimeEntries"];

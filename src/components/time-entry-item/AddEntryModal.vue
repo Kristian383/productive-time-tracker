@@ -10,9 +10,14 @@
       </div>
       <div class="input-group error">
         <label for="service">Service</label>
-        <input id="service" v-model="service" type="text" :disabled="true" />
+        <input
+          id="service"
+          v-model="serviceName"
+          type="text"
+          :disabled="true"
+        />
       </div>
-      <div><b>Date</b>: 5-05-2022</div>
+      <div><b>Date</b>: {{ todaysDate }}</div>
       <div class="input-group error">
         <label for="duration">Duration</label>
         <input
@@ -44,17 +49,21 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
   setup() {
+    const store = useStore();
     const duration = ref("");
-    const project = ref("");
+    const project = ref("Productive task for junior fronted developer");
     const service = ref("");
+    const serviceName = ref("");
     const quill = ref(null);
     const route = useRoute();
     const router = useRouter();
+    const todaysDate = store.getters["time/getTodaysDate"];
     const formTitle = route.query.edit ? "Edit time entry" : "New time entry";
 
     const toolBarOptions = [
@@ -65,11 +74,6 @@ export default {
     const notes = ref("");
     const notesText = ref("");
 
-    // watch(notes, (newNotes) => {
-    //   console.log(`x is`, newNotes.ops);
-    //   notesText.value = newNotes.ops;
-    // });
-
     function getHTML() {
       //   console.log(e);
       console.log(quill.value.getHTML());
@@ -78,6 +82,17 @@ export default {
     function closeModal() {
       router.push("/time-entries");
     }
+
+    onMounted(() => {
+      const services = store.getters["time/getServices"];
+      if (services.length === 0) {
+        router.push("/time-entries");
+        return;
+      }
+      service.value = services[0];
+      serviceName.value = service.value.attributes.name;
+      console.log(serviceName.value);
+    });
 
     return {
       duration,
@@ -90,6 +105,8 @@ export default {
       quill,
       formTitle,
       closeModal,
+      serviceName,
+      todaysDate,
     };
   },
 };

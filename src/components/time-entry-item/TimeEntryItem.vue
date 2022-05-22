@@ -43,7 +43,7 @@ export default {
     const timerStarted = ref(props.entry.attributes.timer_started_at);
     // time,timer_started_at,timer_stopped_at
     setTimeout(() => {
-      console.log(props.entry.attributes);
+      // console.log(props.entry.attributes);
     }, 2000);
 
     function toggleCopyPopup() {
