@@ -1,4 +1,4 @@
-# productive-app
+# time-tracker
 
 ## Project setup
 ```
